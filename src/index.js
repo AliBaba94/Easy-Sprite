@@ -3,10 +3,20 @@ const PATH=require('path');
 const SVGO=require('svgo');
 const {parse, stringify} = require('svgson');
 
+/**
+ * Easy sprite editing using JS
+ * @module easy-sprite
+ * @typicalname hbjs
+ * @example
+ * ```js
+ * const svgSprite = require('easy-sprite')
+ * ```
+ */
+
 module.exports={
 	add,
-	getIcons,
-	removeIcon
+	get,
+	remove
 };
 
 /**
@@ -35,7 +45,7 @@ function add(sprite,svgSource,isCode){
 					attributes: {},
 					children:[]
 				}];
-			const existingIDs=await getIcons(sprite);
+			const existingIDs=await get(sprite);
 			const symbols=[];
 			let files;
 			if(PATH.extname(svgSource) && PATH.extname(svgSource)==='.svg' || isCode)
@@ -63,7 +73,7 @@ function add(sprite,svgSource,isCode){
 
 /**
  * Generates an object representation of the SVG sprite sheet and returns it. {@see objectifySvg}
- * @param {Array<String>} ids - an array of existing IDs in the sprite {@see getIcons}
+ * @param {Array<String>} ids - an array of existing IDs in the sprite {@see get}
  * @param {String} file - the path to an SVG source
  * @param {Boolean} isCode - a boolean indicating whether the SVG source is raw svg code or contained in a file
  * @returns {Promise<Object>}
@@ -137,7 +147,7 @@ function nameToID(name) {
  * @param {String} sprite - path to the sprite sheet
  * @returns {Promise<Array<String>>}
  */
-function getIcons(sprite){
+function get(sprite){
 	return new Promise(async (resolve, reject) =>{
 		try {
 			if(await fs.exists(sprite)){
@@ -158,7 +168,7 @@ function getIcons(sprite){
  * @param {String} id - the id to be removed
  * @returns {Promise<String>}
  */
-function removeIcon(sprite,id) {
+function remove(sprite,id) {
 	return new Promise(async (resolve, reject) =>{
 		try {
 			const found=[];
