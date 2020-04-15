@@ -9,7 +9,7 @@ You only have to provide a sprite sheet to use. If the sprite does not exist it 
 
 ## Notes on generated sprite sheet
 All SVG code (including the code extracted from SVG files) will be optimized using [SVGO](https://github.com/svg/svgo).
-By default all Fills are remove from to allow styling the icon with css. This results in unicolor icons (if the individual paths are not styled separately from the main SVG element.)
+By default all Fills are remove to allow styling the icon with CSS. This results in unicolor icons (if the individual paths are not styled separately from the main SVG element.)
 
 ## Usage in a project
 Following soon
