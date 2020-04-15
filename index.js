@@ -28,8 +28,11 @@ module.exports={
  * @example
  * ```js
  * const svgSprite = require('easy-sprite')
- *
- * const msg=await svgSprite.add(PATH.join(path,to,sprite), PATH.join(path,to,files),false);
+ * let msg;
+ * //adding SVG file(s)
+ * msg=await svgSprite.add(PATH.join(path,to,sprite),PATH.join(path,to,SVG,files),false);
+ * //adding raw SVG Code
+ * msg=await svgSprite.add(PATH.join(path,to,sprite),code,true);
  * console.log(msg);
  * ```
  */

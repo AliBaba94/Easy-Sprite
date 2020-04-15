@@ -44,7 +44,7 @@ Adds the given SVG(s) (either files or codes) to a provided sprite sheet. If the
 | isCode | <code>Boolean</code> | a boolean which has to be provided when the SVG source is raw SVG code |
 
 **Example**  
-```jsconst svgSprite = require('easy-sprite')const msg=await svgSprite.add(PATH.join(path,to,sprite), PATH.join(path,to,files),false);console.log(msg);```
+```jsconst svgSprite = require('easy-sprite')let msg;//adding SVG file(s)msg=await svgSprite.add(PATH.join(path,to,sprite),PATH.join(path,to,SVG,files),false);//adding raw SVG Codemsg=await svgSprite.add(PATH.join(path,to,sprite),code,true);console.log(msg);```
 <a name="module_easy-sprite.get"></a>
 
 ### svgSprite.get(sprite) ⇒ <code>Promise.&lt;Array.&lt;String&gt;&gt;</code>
