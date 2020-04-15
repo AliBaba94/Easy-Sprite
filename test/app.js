@@ -1,5 +1,5 @@
 const PATH=require('path');
-const svgSprite=require('../src/index');
+const svgSprite=require('../index');
 const sprite=PATH.join(__dirname,'icons.svg');
 
 async function test() {

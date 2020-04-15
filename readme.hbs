@@ -1,9 +1,19 @@
+[![view on npm](https://www.npmjs.com/package/@ads-medienmanufaktur/easy-sprite)
 # Easy Sprite by ADS Medienmanufaktur
-#### The only SVG module you'll need. You can use create a new sprite sheet, use an existing one opr use the default one provided. Easily add icons to the sprite sheet, remove or retrieve icons from the sprite sheet.
+#### Merge your SVG files or raw SVG code into one concise and minimal sprite sheet and build your own SVG library :)
 
 ---
-This package allows you to edit a sprite sheet without event opening it.
+## Overview
+This package allows you to edit a sprite sheet without even opening it... All right from within your code!
 You only have to provide a sprite sheet to use. If the sprite does not exist it will be created.
+
+## Notes on generated sprite sheet
+All SVG code (including the code extracted from SVG files) will be optimized using [SVGO](https://github.com/svg/svgo).
+By default all Fills are remove from to allow styling the icon with css. This results in unicolor icons (if the individual paths are not styled separately from the main SVG element.)
+
+## Usage in a project
+Following soon
+
 # API Reference
 {{#module name="easy-sprite"}}
     {{>body~}}
@@ -11,3 +21,11 @@ You only have to provide a sprite sheet to use. If the sprite does not exist it 
     {{>separator~}}
     {{>members~}}
 {{/module}}
+
+* * *
+
+&copy; 2020 ADS Medienmanufaktur &lt;info@ads-medienmanufaktur.de&gt;.
+
+Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).
+
+Easy Sprite is licensed under the [MIT license](https://github.com/acvm007/Easy-Sprite/blob/master/LICENSE.md).
