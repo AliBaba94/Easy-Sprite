@@ -1,7 +1,7 @@
 {
   "name": "@ads-medienmanufaktur/easy-sprite",
   "version": "1.0.1",
-  "description": "The only SVG module you'll need. You can use create a new sprite sheet, use an existing one opr use the default one provided. Easily add icons to the sprite sheet, remove or retrieve icons from the sprite sheet.",
+  "description": "Merge your SVG files or raw SVG code into one concise and minimal sprite sheet and build your own SVG library :)",
   "keywords": [
     "svg",
     "sprite",
@@ -10,8 +10,8 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "node ../test/app",
-    "docs": "jsdoc2md index.js --template ../readme.hbs > ../README.md"
+    "test": "node test/app",
+    "docs": "jsdoc2md index.js --template readme.hbs > README.md"
   },
   "author": "ADS Medienmanufaktur",
   "repository": {

@@ -4,15 +4,14 @@ const SVGO=require('svgo');
 const {parse, stringify} = require('svgson');
 
 /**
- * Easy sprite editing using JS
+ * Simplify SVG  sprite handling
  * @module easy-sprite
- * @typicalname hbjs
+ * @typicalname svgSprite
  * @example
  * ```js
- * const svgSprite = require('easy-sprite')
+ * const svgSprite = require('easy-sprite');
  * ```
  */
-
 module.exports={
 	add,
 	get,
@@ -25,6 +24,14 @@ module.exports={
  * @param {String} svgSource - the source of the SVG as a path string. This can either point to a single .svg file or a directory of SVG files
  * @param {Boolean} isCode - a boolean which has to be provided when the SVG source is raw SVG code
  * @returns {Promise<String>}
+ * @alias module:easy-sprite.add
+ * @example
+ * ```js
+ * const svgSprite = require('easy-sprite')
+ *
+ * const msg=await svgSprite.add(PATH.join(path,to,sprite), PATH.join(path,to,files),false);
+ * console.log(msg);
+ * ```
  */
 function add(sprite,svgSource,isCode){
 	return new Promise(async (resolve, reject) =>{
@@ -77,6 +84,7 @@ function add(sprite,svgSource,isCode){
  * @param {String} file - the path to an SVG source
  * @param {Boolean} isCode - a boolean indicating whether the SVG source is raw svg code or contained in a file
  * @returns {Promise<Object>}
+ * @inner
  */
 function makeSVG(ids,file,isCode) {
 	return new Promise(async(resolve, reject) =>{
@@ -111,11 +119,12 @@ function makeSVG(ids,file,isCode) {
 }
 
 /**
- * Parses an SVG string (either from file or from raw SVG code) and returns the SVG as an object to {@see makeSVG}. Modulee used for SVG parsing: {@link https://www.npmjs.com/package/svgson}
+ * Parses an SVG string (either from file or from raw SVG code) and returns the SVG as an object to {@see makeSVG}. Module used for SVG parsing: {@link https://www.npmjs.com/package/svgson}
  * @param {String} file - the path to the SVG file or raw SVG code
  * @param {Boolean} isCode - indicates whether the file is raw SVG code or not
  * @param {Boolean} optimize - whether to optimize the SVG data. Needed because symbol elements are stripped when parsing whole sprite sheet.
  * @returns {Promise<Object>}
+ * @inner
  */
 function objectifySvg(file,isCode,optimize) {
 	return new Promise(async(resolve, reject) =>{
@@ -136,6 +145,8 @@ function objectifySvg(file,isCode,optimize) {
  * Used to generate symbol IDs. IDs are derived from the lowercase filenames, which are hyphenated. E.g: Add User becomes add-user
  * @param {String} name
  * @returns {string}
+ * @memberof module:easy-sprite
+ * @inner
  */
 function nameToID(name) {
 	const arr=name.toLowerCase().split(' ');
@@ -146,6 +157,14 @@ function nameToID(name) {
  * Extracts all symbols from the SVG object {@see objectifySvg} and returns a map of their id attribute
  * @param {String} sprite - path to the sprite sheet
  * @returns {Promise<Array<String>>}
+ * @alias module:easy-sprite.get
+ * @example
+ * ```js
+ * const svgSprite = require('easy-sprite')
+ *
+ * const msg=await svgSprite.get(PATH.join(path,to,sprite));
+ * console.log(msg);
+ * ```
  */
 function get(sprite){
 	return new Promise(async (resolve, reject) =>{
@@ -164,9 +183,18 @@ function get(sprite){
 
 /**
  * Deletes a specific ID from the given sprite sheet
+ * @alias module:add-two-values.remove
  * @param {String} sprite - the path to the sprite file
  * @param {String} id - the id to be removed
  * @returns {Promise<String>}
+ * @alias module:easy-sprite.remove
+ * @example
+ * ```js
+ * const svgSprite = require('easy-sprite')
+ *
+ * const msg=await svgSprite.remove(PATH.join(path,to,sprite),iconId);
+ * console.log(msg);
+ * ```
  */
 function remove(sprite,id) {
 	return new Promise(async (resolve, reject) =>{

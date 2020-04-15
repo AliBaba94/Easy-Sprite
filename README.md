@@ -1,4 +1,4 @@
-[![view on npm](https://www.npmjs.com/package/@ads-medienmanufaktur/easy-sprite)
+[view on npm](https://www.npmjs.com/package/@ads-medienmanufaktur/easy-sprite)
 # Easy Sprite by ADS Medienmanufaktur
 #### Merge your SVG files or raw SVG code into one concise and minimal sprite sheet and build your own SVG library :)
 
