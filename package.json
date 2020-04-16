@@ -1,6 +1,6 @@
 {
   "name": "@ads-medienmanufaktur/easy-sprite",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Merge your SVG files or raw SVG code into one concise and minimal sprite sheet and build your own SVG library :)",
   "keywords": [
     "svg",
