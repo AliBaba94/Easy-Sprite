@@ -20,9 +20,10 @@ module.exports={
 
 /**
  * Adds the given SVG(s) (either files or codes) to a provided sprite sheet. If the sprite sheet does not exist, it will be created. The path to the sprite sheet will be returned
- * @param {String} sprite - path to the sprite sheet
- * @param {String} svgSource - the source of the SVG as a path string. This can either point to a single .svg file or a directory of SVG files
- * @param {Boolean} isCode - a boolean which has to be provided when the SVG source is raw SVG code
+ * @param location - The directory to save the sprite sheet in
+ * @param name - The name to save the sprite sheet as (.svg will be appended if not present)
+ * @param {String} svgSource - The source of the SVG as a path string. This can either point to a single .svg file or a directory of SVG files
+ * @param {Boolean} isCode - A boolean which has to be provided when the SVG source is raw SVG code
  * @returns {Promise<String>}
  * @alias module:easy-sprite.add
  * @example
@@ -30,13 +31,13 @@ module.exports={
  * const svgSprite = require('easy-sprite')
  * let msg;
  * //adding SVG file(s)
- * msg=await svgSprite.add(PATH.join(path,to,sprite),PATH.join(path,to,SVG,files),false);
+ * msg=await svgSprite.add(PATH.join(path,to,spriteDir),name,PATH.join(path,to,SVG,files),false);
  * //adding raw SVG Code
  * msg=await svgSprite.add(PATH.join(path,to,sprite),code,true);
  * console.log(msg);
  * ```
  */
-function add(sprite,svgSource,isCode){
+function add(location,name,svgSource,isCode){
 	return new Promise(async (resolve, reject) =>{
 		try{
 			let spriteObj={
@@ -44,9 +45,11 @@ function add(sprite,svgSource,isCode){
 				type:'element',
 				value:'',
 				attributes:{xmlns: 'http://www.w3.org/2000/svg'}
-			},report={msg:`The following IDs already exist in ${sprite}`,ids:[]};
-			if(await fs.exists(sprite))
-				spriteObj=await parse(fs.readFileSync(sprite,'utf8'));
+			};
+			const path=PATH.join(location,PATH.extname(name) ? name : `${name}.svg`);
+			let report={msg:`The following IDs already exist in ${path}`,ids:[]};
+			if(await fs.exists(path))
+				spriteObj=await parse(fs.readFileSync(path,'utf8'));
 			else
 				spriteObj.children=[{
 					name: 'defs',
@@ -55,7 +58,7 @@ function add(sprite,svgSource,isCode){
 					attributes: {},
 					children:[]
 				}];
-			const existingIDs=await get(sprite);
+			const existingIDs=await get(location,name);
 			const symbols=[];
 			let files;
 			if(PATH.extname(svgSource) && PATH.extname(svgSource)==='.svg' || isCode)
@@ -72,20 +75,20 @@ function add(sprite,svgSource,isCode){
 				}
 			}
 			spriteObj.children.push(symbols);
-			fs.outputFileSync(sprite,stringify(spriteObj));
+			fs.outputFileSync(path,stringify(spriteObj));
 			if(report.ids.length)
-				return resolve(`File saved as ${sprite}. ${report.msg}: ${report.ids.join()}`);
+				return resolve(`File saved as ${path}. ${report.msg}: ${report.ids.join()}`);
 			else
-				return resolve(`File saved as ${sprite}.`);
+				return resolve(`File saved as ${path}.`);
 		}catch (e) {return reject(new Error(e))}
 	});
 }
 
 /**
  * Generates an object representation of the SVG sprite sheet and returns it. {@see objectifySvg}
- * @param {Array<String>} ids - an array of existing IDs in the sprite {@see get}
- * @param {String} file - the path to an SVG source
- * @param {Boolean} isCode - a boolean indicating whether the SVG source is raw svg code or contained in a file
+ * @param {Array<String>} ids - An array of existing IDs in the sprite {@see get}
+ * @param {String} file - The path to an SVG source
+ * @param {Boolean} isCode - A boolean indicating whether the SVG source is raw svg code or contained in a file
  * @returns {Promise<Object>}
  * @inner
  */
@@ -123,9 +126,9 @@ function makeSVG(ids,file,isCode) {
 
 /**
  * Parses an SVG string (either from file or from raw SVG code) and returns the SVG as an object to {@see makeSVG}. Module used for SVG parsing: {@link https://www.npmjs.com/package/svgson}
- * @param {String} file - the path to the SVG file or raw SVG code
- * @param {Boolean} isCode - indicates whether the file is raw SVG code or not
- * @param {Boolean} optimize - whether to optimize the SVG data. Needed because symbol elements are stripped when parsing whole sprite sheet.
+ * @param {String} file - The path to the SVG file or raw SVG code
+ * @param {Boolean} isCode - Indicates whether the file is raw SVG code or not
+ * @param {Boolean} optimize - Whether to optimize the SVG data. Needed because symbol elements are stripped when parsing whole sprite sheet.
  * @returns {Promise<Object>}
  * @inner
  */
@@ -146,7 +149,7 @@ function objectifySvg(file,isCode,optimize) {
 
 /**
  * Used to generate symbol IDs. IDs are derived from the lowercase filenames, which are hyphenated. E.g: Add User becomes add-user
- * @param {String} name
+ * @param {String} name - The name to convert
  * @returns {string}
  * @memberof module:easy-sprite
  * @inner
@@ -158,7 +161,8 @@ function nameToID(name) {
 
 /**
  * Extracts all symbols from the SVG object {@see objectifySvg} and returns a map of their id attribute
- * @param {String} sprite - path to the sprite sheet
+ * @param location - The directory to save the sprite sheet in
+ * @param name - The name to save the sprite sheet as (.svg will be appended if not present)
  * @returns {Promise<Array<String>>}
  * @alias module:easy-sprite.get
  * @example
@@ -169,9 +173,11 @@ function nameToID(name) {
  * console.log(msg);
  * ```
  */
-function get(sprite){
+function get(location,name){
 	return new Promise(async (resolve, reject) =>{
 		try {
+			const sprite=PATH.join(location,PATH.extname(name) ? name : `${name}.svg`);
+			console.log(sprite);
 			if(await fs.exists(sprite)){
 				const spriteData=await objectifySvg(sprite,false,false);
 				return resolve(spriteData.children
@@ -187,8 +193,9 @@ function get(sprite){
 /**
  * Deletes a specific ID from the given sprite sheet
  * @alias module:add-two-values.remove
- * @param {String} sprite - the path to the sprite file
- * @param {String} id - the id to be removed
+ * @param location - The directory to save the sprite sheet in
+ * @param name - The name to save the sprite sheet as (.svg will be appended if not present)
+ * @param {String} id - The id to be removed
  * @returns {Promise<String>}
  * @alias module:easy-sprite.remove
  * @example
@@ -199,10 +206,11 @@ function get(sprite){
  * console.log(msg);
  * ```
  */
-function remove(sprite,id) {
+function remove(location,name,id) {
 	return new Promise(async (resolve, reject) =>{
 		try {
 			const found=[];
+			const sprite=PATH.join(location,PATH.extname(name) ? name : `${name}.svg`);
 			let spriteObj=await objectifySvg(sprite,false,false);
 			spriteObj.children.forEach(child=>{
 				if(child.attributes.id===id)
