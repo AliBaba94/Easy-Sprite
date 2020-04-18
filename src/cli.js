@@ -25,7 +25,7 @@ async function getParams(options){
 			type:'path',
 			name:'path',
 			message:'Please provide a directory to your sprite sheet',
-			default:options.path || options.src || __dirname
+			default:options.path || options.src || process.cwd()
 		},
 		name:{
 			type:'input',
@@ -37,7 +37,7 @@ async function getParams(options){
 			type:'path',
 			name:'src',
 			message:'Please provide a location to your SVG file or your SVG directory',
-			default:options.path || options.src || __dirname
+			default:options.path || options.src || process.cwd()
 		},
 		id:{
 			type:'input',
