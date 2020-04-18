@@ -2,17 +2,24 @@ import arg from 'arg'
 import inquirer from 'inquirer'
 import { PathPrompt } from 'inquirer-path';
 import svgSprite from '../src/index';
+import {name,version,description} from '../package';
 
 function parsArguments(rawArgs){
 	const args=arg({
+		'--version':Boolean,
+		'--help':Boolean,
 		'--add': Boolean,
 		'--get': Boolean,
 		'--remove': Boolean,
+		'-v':'--version',
+		'-h':'--help',
 		'-a':'--add',
 		'-g':'--get',
 		'-rm':'--remove',
 	},{argv:rawArgs.slice(2)});
 	return{
+		version:args['--version'] || false,
+		help:args['--help'] || false,
 		add:args['--add'] || false,
 		get:args['--get'] || false,
 		remove:args['--remove'] || false
@@ -64,8 +71,43 @@ async function getParams(options){
 
 exports.cli=async (args)=>{
 	let options=parsArguments(args);
-	if(options.help){
+	if(options.version){
+		console.log(`${name}@${version}`);
+		console.log(description);
+	}
+	else if(options.help){
+		const opts=[{
+				command:'--version | -v',
+				description:'Display the version'
+			},{
+				command:'--help | -h',
+				description:'Display help'
+			}
+		];
+		const commands=[
+			{
+				command:'--add | -a',
+				description:'Add a single .svg or a directory of SVGs to the specified sprite sheet (non-existent sprite sheets will be created)'
+			}, {
+				command:'--get | -g',
+				description:'Get all the icon IDs from the provided sprite sheet.'
+			},
+			{
+				command:'--remove | -rm',
+				description:'Remove the specified icon ID from the provided sprite sheet.'
+			}
+		];
+		console.log('Usage:');
+		console.log('\t','Type a command to call a functions on the sprite sheet.\n\tYou will be asked to provide the necessary parameters like the path to the sprite sheet, the path to the icon(s) or the icon ID');
+		console.log('Options:');
+		opts.forEach((o,i)=>{
+			console.log('\t',`${o.command}: ${o.description}`);
+		});
 
+		console.log('Commands:');
+		commands.forEach((h,i)=>{
+			console.log('\t',`${h.command}: ${h.description}`);
+		});
 	}
 	else {
 		const executables=[];
