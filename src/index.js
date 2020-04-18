@@ -221,11 +221,14 @@ function remove(location,name,id) {
 					})[0]);
 				}
 			});
+			console.log(found);
 			found.forEach(f=>{
-				if(f.name==='symbol')
-					spriteObj.children.splice(spriteObj.children.indexOf(f),1);
-				else
-					spriteObj.children[0].children.splice(spriteObj.children[0].children.indexOf(found[1]),1);
+				if(f){
+					if(f.name==='symbol')
+						spriteObj.children.splice(spriteObj.children.indexOf(f),1);
+					else
+						spriteObj.children[0].children.splice(spriteObj.children[0].children.indexOf(found[1]),1);
+				}
 			});
 			fs.outputFileSync(sprite,stringify(spriteObj));
 			return resolve(`Icon "${id}" removed from ${sprite}`)
