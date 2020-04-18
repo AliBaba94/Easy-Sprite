@@ -221,7 +221,6 @@ function remove(location,name,id) {
 					})[0]);
 				}
 			});
-			console.log(found);
 			found.forEach(f=>{
 				if(f){
 					if(f.name==='symbol')
