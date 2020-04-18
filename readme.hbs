@@ -17,15 +17,17 @@ From anywhere you can now use one of 2 commands:
 svg-sprite <command> or sprite <command>
 ```
 The commands of the CLI respond to the exported functions of the API:
+* --version,-v: Display version
+* --help,-h: Display help
 * --add,-a: Add SVG(s) to a sprite sheet (or initialize a new sprite sheet)
 * --get,-g: Get all IDs in current sprite sheet
-* --remove,-rm: Remove an ID from the sprite sheet
+* --remove,-r: Remove an ID from the sprite sheet
 You will be prompted to provide the parameters for the API functions in a step-by-step process.
 All functions are chainable like:
 ```js
 sprite --add --get
 ```
-Chained commands are executed after all parameters of each command have been provided.
+Chained commands are executed after all parameters for each command have been provided.
 
 ### As an API
 To use this package in a project install and require it. Then you can call each function as you would using any other module. For more details, see the API Reference below.

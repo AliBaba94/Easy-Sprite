@@ -15,7 +15,7 @@ function parsArguments(rawArgs){
 		'-h':'--help',
 		'-a':'--add',
 		'-g':'--get',
-		'-rm':'--remove',
+		'-r':'--remove',
 	},{argv:rawArgs.slice(2)});
 	return{
 		version:args['--version'] || false,
@@ -58,7 +58,7 @@ async function getParams(options){
 		questions.push(qs.path,qs.name,qs.src);
 	else if(options.get)
 		questions.push(qs.path,qs.name);
-	else if(options.get)
+	else if(options.remove)
 		questions.push(qs.path,qs.name,qs.id);
 	else{
 		console.log('Please specify a function to call');
@@ -93,7 +93,7 @@ exports.cli=async (args)=>{
 				description:'Get all the icon IDs from the provided sprite sheet.'
 			},
 			{
-				command:'--remove | -rm',
+				command:'--remove | -r',
 				description:'Remove the specified icon ID from the provided sprite sheet.'
 			}
 		];

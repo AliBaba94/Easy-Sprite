@@ -16,21 +16,23 @@ From anywhere you can now use one of 2 commands:
 ```js
 svg-sprite <command> or sprite <command>
 ```
-The commands of the cli respond to the exported functions of the API:
+The commands of the CLI respond to the exported functions of the API:
+* --version,-v: Display version
+* --help,-h: Display help
 * --add,-a: Add SVG(s) to a sprite sheet (or initialize a new sprite sheet)
 * --get,-g: Get all IDs in current sprite sheet
-* --remove,-rm: Remove an ID from the sprite sheet
+* --remove,-r: Remove an ID from the sprite sheet
 You will be prompted to provide the parameters for the API functions in a step-by-step process.
 All functions are chainable like:
 ```js
 sprite --add --get
 ```
-Chained commands are executed after all parameters of each command have been provided.
+Chained commands are executed after all parameters for each command have been provided.
 
 ### As an API
 To use this package in a project install and require it. Then you can call each function as you would using any other module. For more details, see the API Reference below.
-If you intend toi use the Easy Sprite API inside a VueJS project: don't. VueJS cannot handle importing NPM modules without them being a Vue plugin. Any insight or solutions to this are greatly appreciated.
-However, as a workaround: Use the modules API in a NodeJS Server and simply link the generated sprite sheet in he vueJS template as shown below.
+If you intend to use the Easy Sprite API inside a VueJS project: don't! VueJS cannot handle importing NPM modules without them being a Vue plugin. At some point in the future, this will also be provided as a Vue plugin.
+In the meantime: Use the modules API in a NodeJS Server and simply link the generated sprite sheet in he vueJS template as shown in the HTML below.
 
 ## Using the generated sprite sheet
 In any HTML document create an SVG tag and inside it a USE tag. Using xlink:href attribute on the USE tag link to the external sprite sheet and require a specific icon using the ID (#) selector. Example:
